@@ -82,15 +82,15 @@ public class ServerStart {
             // help
             OPTIONS.addOption("h", "help", false, "usage help");
             // port
-            OPTIONS.addOption(Option.builder("p").hasArg().argName("port").type(Integer.TYPE).desc("the port of server startup").build());
+            OPTIONS.addOption(Option.builder("p").hasArg().argName("port").type(Integer.TYPE).desc("the port of server startup, default 1081").build());
             // number fo workers thread
-            OPTIONS.addOption(Option.builder("n").hasArg().argName("thread numbers").type(Integer.TYPE).build());
+            OPTIONS.addOption(Option.builder("n").hasArg().argName("thread numbers").type(Integer.TYPE).desc("default is the number of your processor").build());
             // remote connect timeout
-            OPTIONS.addOption(Option.builder("t").hasArg().argName("connect remote timeout (mills)").type(Long.TYPE).build());
+            OPTIONS.addOption(Option.builder("t").hasArg().argName("connect remote timeout (mills)").type(Long.TYPE).desc("default is 5000").build());
             // client idle seconds
-            OPTIONS.addOption(Option.builder("i").hasArg().argName("idle time (second)").type(Long.TYPE).build());
+            OPTIONS.addOption(Option.builder("i").hasArg().argName("idle time (second)").type(Long.TYPE).desc("default is 600").build());
             // reconnect
-            OPTIONS.addOption(Option.builder("r").hasArg().argName("is reconnect (true/false)").desc("usually reconnect is false").type(Boolean.TYPE).build());
+            OPTIONS.addOption(Option.builder("r").hasArg().argName("is reconnect (true/false)").desc("usually reconnect is false, default is false").type(Boolean.TYPE).build());
             try {
                 commandLine = commandLineParser.parse(OPTIONS, args);
             } catch (ParseException e) {
