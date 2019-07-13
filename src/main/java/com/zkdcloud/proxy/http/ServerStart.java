@@ -90,7 +90,7 @@ public class ServerStart {
             // client idle seconds
             OPTIONS.addOption(Option.builder("i").hasArg().argName("idle time (second)").type(Long.TYPE).desc("default is 600").build());
             // reconnect
-            OPTIONS.addOption(Option.builder("r").hasArg().argName("is reconnect (true/false)").desc("usually reconnect is false, default is false").type(Boolean.TYPE).build());
+            OPTIONS.addOption(Option.builder("r").hasArg().argName("reconnect (true/false)").desc("usually reconnect is false, default is false").type(Boolean.TYPE).build());
             try {
                 commandLine = commandLineParser.parse(OPTIONS, args);
             } catch (ParseException e) {
