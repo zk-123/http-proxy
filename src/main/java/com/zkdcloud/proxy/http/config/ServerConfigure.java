@@ -11,6 +11,7 @@ public class ServerConfigure {
     private int threadNumber;
     private long timeout;
     private long idleTime;
+    private boolean isReconnect;
 
     public int getPort() {
         return port;
@@ -42,5 +43,13 @@ public class ServerConfigure {
 
     public void setIdleTime(long idleTime) {
         this.idleTime = idleTime;
+    }
+
+    public boolean isReconnect() {
+        return isReconnect;
+    }
+
+    public void setReconnect(boolean reconnect) {
+        isReconnect = reconnect;
     }
 }

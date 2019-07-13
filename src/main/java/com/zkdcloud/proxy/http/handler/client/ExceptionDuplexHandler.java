@@ -1,10 +1,7 @@
 package com.zkdcloud.proxy.http.handler.client;
 
-import com.zkdcloud.proxy.http.context.ChannelContext;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelPromise;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

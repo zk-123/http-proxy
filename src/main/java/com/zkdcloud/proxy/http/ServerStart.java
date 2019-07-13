@@ -89,6 +89,8 @@ public class ServerStart {
             OPTIONS.addOption(Option.builder("t").hasArg().argName("connect remote timeout (mills)").type(Long.TYPE).build());
             // client idle seconds
             OPTIONS.addOption(Option.builder("i").hasArg().argName("idle time (second)").type(Long.TYPE).build());
+            // reconnect
+            OPTIONS.addOption(Option.builder("r").hasArg().argName("is reconnect (true/false)").desc("usually reconnect is false").type(Boolean.TYPE).build());
             try {
                 commandLine = commandLineParser.parse(OPTIONS, args);
             } catch (ParseException e) {
@@ -121,8 +123,13 @@ public class ServerStart {
 
             // client idle time(second)
             String idleTimeOptionValue = commandLine.getOptionValue("i");
-            long idleTime = idleTimeOptionValue == null || "".equals(idleTimeOptionValue) ? 60 * 10 : Integer.parseInt(idleTimeOptionValue);
+            long idleTime = idleTimeOptionValue == null || "".equals(idleTimeOptionValue) ? 60 * 10 * 10 : Integer.parseInt(idleTimeOptionValue);
             serverConfigure.setIdleTime(idleTime);
+
+            // reconnect
+            String isReconnectOptionValue = commandLine.getOptionValue("r");
+            boolean isReconnect = isReconnectOptionValue == null || "".equals(isReconnectOptionValue) ? true : Boolean.valueOf(isReconnectOptionValue);
+            serverConfigure.setReconnect(isReconnect);
         }
 
     }

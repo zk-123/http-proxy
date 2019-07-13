@@ -2,6 +2,7 @@ package com.zkdcloud.proxy.http.handler.client;
 
 import com.zkdcloud.proxy.http.context.ChannelContext;
 import com.zkdcloud.proxy.http.handler.remote.DefaultRemoteFlowTransfer;
+import com.zkdcloud.proxy.http.handler.remote.RemoteMonitorDuplexHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -30,8 +31,6 @@ public class BuildChannelInboundHandler extends ChannelInboundHandlerAdapter {
      * static logger
      */
     private static Logger logger = LoggerFactory.getLogger(BuildChannelInboundHandler.class);
-    private static NioEventLoopGroup connectGroup = new NioEventLoopGroup(serverConfigure.getThreadNumber(),
-            new DefaultThreadFactory("connect-threads"));
     /**
      * client channel
      */
@@ -61,7 +60,7 @@ public class BuildChannelInboundHandler extends ChannelInboundHandlerAdapter {
         final ChannelFuture channelFuture;
         switch (protocol) {
             case HTTP:
-                channelFuture = connectRemote(dstAddress, new HttpRequestEncoder(), new DefaultRemoteFlowTransfer());
+                channelFuture = connectRemote(dstAddress, new HttpRequestEncoder(), new RemoteMonitorDuplexHandler(), new DefaultRemoteFlowTransfer());
                 channelFuture.addListener(new ChannelFutureListener() {
                     public void operationComplete(ChannelFuture future) {
                         if (future.isSuccess()) {
@@ -82,7 +81,7 @@ public class BuildChannelInboundHandler extends ChannelInboundHandlerAdapter {
                 });
                 break;
             case TUNNEL:
-                channelFuture = connectRemote(dstAddress, new DefaultRemoteFlowTransfer());
+                channelFuture = connectRemote(dstAddress, new RemoteMonitorDuplexHandler(), new DefaultRemoteFlowTransfer());
                 channelFuture.addListener(new ChannelFutureListener() {
                     public void operationComplete(ChannelFuture future) {
                         if (future.isSuccess()) {
@@ -123,13 +122,7 @@ public class BuildChannelInboundHandler extends ChannelInboundHandlerAdapter {
                 flocks.add(msg);
                 break;
             case FINISHED:
-                if (connectState == STATE.FINISHED && (!remoteChannel.isOpen() || !remoteChannel.isActive())) {
-                    ReferenceCountUtil.release(msg);
-                    closeChannel();
-                    return;
-                } else {
-                    ctx.fireChannelRead(msg);
-                }
+                ctx.fireChannelRead(msg);
                 break;
             default:
                 super.channelRead(ctx, msg);
@@ -147,10 +140,10 @@ public class BuildChannelInboundHandler extends ChannelInboundHandlerAdapter {
         if (remoteBootstrap == null) {
             remoteBootstrap = new Bootstrap();
         }
-        return remoteBootstrap.group(connectGroup)
+        return remoteBootstrap.group(clientChannel.eventLoop())
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.TCP_NODELAY, true)
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, (int)serverConfigure.getTimeout())
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, (int) serverConfigure.getTimeout())
                 .channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<Channel>() {
                     protected void initChannel(Channel ch) {
