@@ -145,7 +145,7 @@ public class ServerStart {
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             PrintWriter printWriter = new PrintWriter(byteArrayOutputStream);
-            helpFormatter.printHelp(printWriter, HelpFormatter.DEFAULT_WIDTH, "http proxy", null,
+            helpFormatter.printHelp(printWriter, HelpFormatter.DEFAULT_WIDTH, "java -jar http-proxy.jar", null,
                     OPTIONS, HelpFormatter.DEFAULT_LEFT_PAD, HelpFormatter.DEFAULT_DESC_PAD, null);
             printWriter.flush();
             HELP_STRING = new String(byteArrayOutputStream.toByteArray());
