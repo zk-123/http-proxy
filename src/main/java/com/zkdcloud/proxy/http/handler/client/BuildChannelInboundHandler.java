@@ -5,11 +5,9 @@ import com.zkdcloud.proxy.http.handler.remote.DefaultRemoteFlowTransfer;
 import com.zkdcloud.proxy.http.handler.remote.RemoteMonitorDuplexHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.util.ReferenceCountUtil;
-import io.netty.util.concurrent.DefaultThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -128,7 +128,7 @@ public class ServerStart {
 
             // reconnect
             String isReconnectOptionValue = commandLine.getOptionValue("r");
-            boolean isReconnect = isReconnectOptionValue == null || "".equals(isReconnectOptionValue) ? true : Boolean.valueOf(isReconnectOptionValue);
+            boolean isReconnect = isReconnectOptionValue == null || "".equals(isReconnectOptionValue) ? false : Boolean.valueOf(isReconnectOptionValue);
             serverConfigure.setReconnect(isReconnect);
         }
 
