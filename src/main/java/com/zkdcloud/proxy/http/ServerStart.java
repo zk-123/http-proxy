@@ -89,8 +89,6 @@ public class ServerStart {
             OPTIONS.addOption(Option.builder("t").hasArg().argName("connect remote timeout (mills)").type(Long.TYPE).desc("default is 5000").build());
             // client idle seconds
             OPTIONS.addOption(Option.builder("i").hasArg().argName("idle time (second)").type(Long.TYPE).desc("default is 600").build());
-            // reconnect
-            OPTIONS.addOption(Option.builder("r").hasArg().argName("reconnect (true/false)").desc("usually reconnect is false, default is false").type(Boolean.TYPE).build());
             try {
                 commandLine = commandLineParser.parse(OPTIONS, args);
             } catch (ParseException e) {
@@ -125,11 +123,6 @@ public class ServerStart {
             String idleTimeOptionValue = commandLine.getOptionValue("i");
             long idleTime = idleTimeOptionValue == null || "".equals(idleTimeOptionValue) ? 60 * 10 * 10 : Integer.parseInt(idleTimeOptionValue);
             serverConfigure.setIdleTime(idleTime);
-
-            // reconnect
-            String isReconnectOptionValue = commandLine.getOptionValue("r");
-            boolean isReconnect = isReconnectOptionValue == null || "".equals(isReconnectOptionValue) ? false : Boolean.valueOf(isReconnectOptionValue);
-            serverConfigure.setReconnect(isReconnect);
         }
 
     }
