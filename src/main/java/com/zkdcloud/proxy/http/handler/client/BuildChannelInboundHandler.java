@@ -2,7 +2,6 @@ package com.zkdcloud.proxy.http.handler.client;
 
 import com.zkdcloud.proxy.http.context.ChannelContext;
 import com.zkdcloud.proxy.http.handler.remote.DefaultRemoteFlowTransfer;
-import com.zkdcloud.proxy.http.handler.remote.RemoteMonitorDuplexHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -58,7 +57,7 @@ public class BuildChannelInboundHandler extends ChannelInboundHandlerAdapter {
         final ChannelFuture channelFuture;
         switch (protocol) {
             case HTTP:
-                channelFuture = connectRemote(dstAddress, new HttpRequestEncoder(), new RemoteMonitorDuplexHandler(), new DefaultRemoteFlowTransfer());
+                channelFuture = connectRemote(dstAddress, new HttpRequestEncoder(), new DefaultRemoteFlowTransfer());
                 channelFuture.addListener(new ChannelFutureListener() {
                     public void operationComplete(ChannelFuture future) {
                         if (future.isSuccess()) {
@@ -79,7 +78,7 @@ public class BuildChannelInboundHandler extends ChannelInboundHandlerAdapter {
                 });
                 break;
             case TUNNEL:
-                channelFuture = connectRemote(dstAddress, new RemoteMonitorDuplexHandler(), new DefaultRemoteFlowTransfer());
+                channelFuture = connectRemote(dstAddress, new DefaultRemoteFlowTransfer());
                 channelFuture.addListener(new ChannelFutureListener() {
                     public void operationComplete(ChannelFuture future) {
                         if (future.isSuccess()) {
